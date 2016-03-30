@@ -37,6 +37,7 @@ def load_DB(str1,i):
     c = conn.cursor()
     # Insert a row of data
 
+
     c.execute("INSERT INTO nmea"+str(i)+" VALUES (?,?,?,?,?,?,?,?,?,?)",(list1[1], list1[2], list1[3], list1[4],list1[5], list1[6],list1[7], list1[8], list1[9], list1[10]))
     conn.commit()
     conn.close()

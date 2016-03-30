@@ -20,6 +20,7 @@ def create_db():
     conn.close()
 
 
+
 def add_to_db(str):
     list1=str.split(',')
     print (list1[1][1])

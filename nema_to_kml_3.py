@@ -24,6 +24,7 @@ FILE.write('<Folder>\n')
 FILE.write('<name>Point Features</name>\n')
 FILE.write('<description>Point Features</description>\n')
 
+
 i = 1
 for poi in pois:
 	print('%s : %s, %s' % (poi, poi[2], poi[1],))
