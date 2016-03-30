@@ -6,6 +6,7 @@ conn = sqlite3.connect('example.db')
 c = conn.cursor()
 # Create table
 total=0
+
 def read_dir(str):
     i=0
     global total
@@ -15,9 +16,6 @@ def read_dir(str):
                i=i+1
                read_file(str+"\\"+file,i)
                total = i
-
-
-
 
 def read_file(str1,i):
     with open (str1,'r')as f:
@@ -37,7 +35,7 @@ def create_DB(str1,i):
     conn.commit()
 
 
-read_dir("C:\\nmea")
+read_dir("C:\\Users\\or\\PycharmProjects\\matala2\\nmea")
 #read_file("2016-03-30 10_13_22.nmea")
 print('total= '+str(total))
 conn.close()

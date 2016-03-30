@@ -1,12 +1,22 @@
 import csv
 from datetime import datetime
 import math
+import sqlite3
 
 # adapt this to your file
 INPUT_FILENAME = 'c:\\nmea\\2016-03-30 10_13_22.nmea'
 OUTPUT_FILENAME = 'c:\\nmea\\2016-03-30 10_13_22.csv'
 
+conn = sqlite3.connect('example.db')
+conn.text_factory = str ## my current (failed) attempt to resolve this
+cur = conn.cursor()
+data = cur.execute("SELECT * FROM nmea1")
+with open('2016-03-30 10_13_22.csv', 'w') as f:
+    writer = csv.writer(f)
+    writer.writerow(['time', 'latitude', 'north\south','longtitude','east\west','quality','nos','hdop','altitude','hog'])
+    writer.writerows(data)
 # open the input file in read mode
+"""
 with open(INPUT_FILENAME, 'r') as input_file:
 
     # open the output file in write mode
@@ -71,3 +81,4 @@ with open(INPUT_FILENAME, 'r') as input_file:
 
                 # write the calculated/formatted values of the row that we just read into the csv file
                 writer.writerow([date_and_time, lat, lon, speed])
+"""
