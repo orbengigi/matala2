@@ -1,43 +1,35 @@
+#!/usr/bin/python
 
 import sqlite3
 
-conn = sqlite3.connect('test.db')
 
-c = conn.cursor()
+def create_db():
+    conn = sqlite3.connect('test.db')
+    c=conn.cursor()
+    c.execute(""""drop table if exists nmea""")
 
-c.execute("""drop table if exists towns""")
-c.execute("""drop table if exists hotels""")
+    conn.commit()
+    c.execute('drop table if exists nmea')
+    conn.execute('CREATE TABLE nmea'
+                 '        (ID INT PRIMARY KEY     NOT NULL,\n'
+                 '        time TEXT, latitude STRING,north STRING,\n'
+                 '        longtitude STRING,east STRING,quality STRING, nos STRING,\n'
+                 '        hdop STRING, altitude STRING, hog STRING)')
+    print("Table created successfully")
 
-conn.commit()
+    conn.close()
 
-c.execute("""create table towns (
-        tid     int     primary key not NULL ,
-        name    text,
-        postcode        text)""")
 
-c.execute("""create table hotels (
-        hid     int     primary key not NULL ,
-        tid     int,
-        name    text,
-        address text,
-        rooms   int,
-        rate    float)""")
+def add_to_db(str):
+    list1=str.split(',')
+    print (list1[1][1])
+    conn = sqlite3.connect('test.db')
+    print("Opened database successfully")
+    conn.execute("INSERT INTO nmea VALUES (2, '2',?,'4','5','6','7','8','91','10','11')",[list1[1]])
 
-c.execute("""insert into towns values (1, "Melksham", "SN12")""")
-c.execute("""insert into towns values (2, "Cambridge", "CB1")""")
-c.execute("""insert into towns values (3, "Foxkilo", "CB22")""")
+    conn.commit()
+    print("Records created successfully")
+    conn.close()
 
-c.execute("""insert into hotels values (1, 2, "Hamilkilo Hotel", "Chesterton Road", 15, 40.)""")
-c.execute("""insert into hotels values (2, 2, "Arun Dell", "Chesterton Road", 60, 70.)""")
-c.execute("""insert into hotels values (3, 2, "Crown Plaza", "Downing Street", 100, 105.)""")
-c.execute("""insert into hotels values (4, 1, "Well House Manor", "Spa Road", 5, 80.)""")
-c.execute("""insert into hotels values (5, 1, "Beechfield House", "The Main Road", 26, 110.)""")
-
-conn.commit()
-
-c.execute ("""select * from towns left join hotels on towns.tid = hotels.tid""")
-
-for row in c:
-        print (row)
-
-c.close()
+create_db()
+add_to_db("or,roni,ido")
