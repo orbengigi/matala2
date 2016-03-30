@@ -7,8 +7,6 @@ import sqlite3
 total=0
 
 def read_dir(str):
-    conn = sqlite3.connect('example.db')
-    c = conn.cursor()
     i=0
     global total
     if os.path.isdir(str):
@@ -17,7 +15,7 @@ def read_dir(str):
                i=i+1
                read_file(str+"\\"+file,i)
                total = i
-    conn.close()
+    return i
 
 def read_file(str1,i):
     with open (str1,'r')as f:
