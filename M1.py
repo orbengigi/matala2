@@ -27,7 +27,7 @@ def read_file(str1,i):
                 east text,quality text, nos text, hdop text, altitude text,
                 hog text,speed text,date text)''')
         list=f.readlines()
-        for x in range(0, len(list)):
+        for x in range(0, len(list)-1,2):
                 load_DB(list[x],list[x+1],i)
         conn.close()
     return 1
