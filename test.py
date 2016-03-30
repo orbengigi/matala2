@@ -12,7 +12,7 @@ conn.execute('''CREATE TABLE COMPANY3
        ADDRESS        CHAR(50),
        SALARY         REAL);''')
 print("Table created successfully")
-
+dd
 conn.close()
 
 #!/usr/bin/python
