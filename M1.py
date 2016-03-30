@@ -12,4 +12,5 @@ def read_dir(str):
                read_file(file)
 
 
+
 read_dir("c:\\")
