@@ -8,12 +8,15 @@ c = conn.cursor()
 total=0
 def read_dir(str):
     i=0
+    global total
     if os.path.isdir(str):
        for file in os.listdir(str):
            if ".nmea" in file:
                i=i+1
                read_file(str+"\\"+file,i)
-    total=i
+               total = i
+
+
 
 
 def read_file(str1,i):
@@ -34,6 +37,7 @@ def create_DB(str1,i):
     conn.commit()
 
 
-read_dir("C:\\nmea\\nmea")
+read_dir("C:\\nmea")
 #read_file("2016-03-30 10_13_22.nmea")
+print('total= '+str(total))
 conn.close()
