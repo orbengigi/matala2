@@ -4,9 +4,11 @@ import sqlite3
 conn = sqlite3.connect('example.db')
 c = conn.cursor()
 # Create table
-c.execute('''CREATE TABLE cde
-    (ID INT PRIMARY KEY     NOT NULL, time text, latitude text,north text, longtitude text,east text,
-    quality text, nos text, hdop text, altitude text, hog text)''')
+c.execute('drop table if exists nmea')
+c.execute('''CREATE TABLE nmea
+    (time text, latitude text,north text, longtitude text,
+    east text,quality text, nos text, hdop text, altitude text,
+    hog text)''')
 
 def read_dir(str):
     if os.path.isdir(str):
@@ -21,23 +23,13 @@ def read_file(str):
             create_DB(x)
 
 def create_DB(str):
-    list=str.split(",")
-    print (type(list[1]))
+    list1=str.split(",")
+    print(list1)
     # Insert a row of data
-    c.execute("INSERT INTO cde VALUES (1, list[1], list[2], list[3], list[4],"
-              " list[5], list[6], list[7], list[8], list[9], list[10])")
+    c.execute("INSERT INTO nmea VALUES (?,?,?,?,?,?,?,?,?,?)",([list1[1]], [list1[2]], [list1[3]], [list1[4]],[list1[5]], [list1[6]],[list1[7]], [list1[8]], [list1[9]], [list1[10]]))
     conn.commit()
 
 
 
-
-
-
-# Save (commit) the changes
-
-
-# We can also close the connection if we are done with it.
-# Just be sure any changes have been committed or they will be lost.
-
-read_dir("c:\\")
+read_file("2016-03-30 10_13_22.nmea")
 conn.close()
