@@ -22,7 +22,6 @@ class Nmea(object):
         sentence = Gpgga(line)
       elif line.startswith('$GPVTG'):
         sentence = Gpvtg(line)
-      else:
         return
       self.sentences.append(sentence)
     except ValueError as e:
