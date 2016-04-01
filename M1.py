@@ -5,7 +5,6 @@ import sqlite3
 
 # Create table
 total=0
-
 def read_dir(str):
     i=0
     global total
@@ -27,11 +26,51 @@ def read_file(str1,i):
                 east text,quality text, nos text, hdop text, altitude text,
                 hog text,speed text,date text)''')
         list=f.readlines()
-        for x in range(0, len(list)-1,2):
-                load_DB(list[x],list[x+1],i)
+        index=0
+
+        while index<len(list)-1:             # Go over all the lines in the current file
+            index1 = find_GA(list,index)     # Finding the next GPGGA line
+            if (index1==-1):                 # Checking if the GPGGA line is correct
+                break
+            line1 = checkLine(list[index1])  # Fix line
+            index = index1+1
+            index2 = findMC(list,index)      # Finding the next GPRMC line
+            if (index2 == -1):               # Checking if the GPRMC line is correct
+                break
+            line2 = checkLine(list[index2])  # Fix line
+            index=index2+1
+            load_DB(line1,line2,i)           # Enter the lines into the database
         conn.close()
     return 1
 
+
+def checkLine(line):                         # checkLine Function - Fix the line to start with '$'
+    if (line[0] != '$'):
+        j = 0
+        while line[j] != '$':
+            j = j + 1
+        line1 = line[j:]
+        return line1
+    return line
+def find_GA(list,index):
+    while "GPGGA" not in list[index] and index<len(list)-2:
+        index=index+1
+    if index >= len(list) - 1:
+        return -1
+    str=list[index].split(",")
+    if (str[1]==''):
+        return find_GA(list,index+1)
+
+    return index
+def findMC(list,index):
+    while "GPRMC" not in list[index] and index<len(list)-2:
+        index=index+1
+    if index>=len(list)-1:
+        return -1
+    str=list[index].split(",")
+    if (str[1]==''):
+        return find_GA(list,index+1)
+    return index
 def load_DB(str1,str2,i):
     list1=str1.split(",")
     list2=str2.split(",")
