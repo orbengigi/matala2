@@ -21,6 +21,7 @@ def read_file(str1,i):
         conn = sqlite3.connect('example.db')
         c = conn.cursor()
         c.execute('drop table if exists nmea' + str(i))
+        c.execute('CREATE TABLE IF NOT EXISTS summary(startDate text,endDate text,startTime text, endTime text,maxSpeed text,minSpeed text)')
         c.execute('''CREATE TABLE nmea''' + str(i) + '''
                 (time text, latitude text,north text, longtitude text,
                 east text,quality text, nos text, hdop text, altitude text,
@@ -40,6 +41,8 @@ def read_file(str1,i):
             line2 = checkLine(list[index2])  # Fix line
             index=index2+1
             load_DB(line1,line2,i)           # Enter the lines into the database
+       # startTime=c.execute('SELECT MIN(time) FROM summary')
+       # print(startTime,"\n")
         conn.close()
     return 1
 
@@ -81,3 +84,10 @@ def load_DB(str1,str2,i):
     conn.commit()
     conn.close()
 
+
+def dropAll():
+    conn = sqlite3.connect('example.db')
+    c = conn.cursor()
+    tables = list(c.execute("select name from sqlite_master where type is 'table'"))
+
+    c.executescript(';'.join(["drop table if exists %s" % i for i in tables]))
